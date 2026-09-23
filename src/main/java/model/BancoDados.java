@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author Rafael
- */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,8 +70,10 @@ public final class BancoDados {
         }
     }
 
-    private static boolean existeAdmin(Connection c, String usuario)
-            throws SQLException {
+    private static boolean existeAdmin(
+            Connection c,
+            String usuario
+    ) throws SQLException {
 
         try (
             PreparedStatement ps = c.prepareStatement(
@@ -95,30 +89,22 @@ public final class BancoDados {
         }
     }
 
-    private static void criarProdutosIniciais(Connection c)
-            throws SQLException {
+    private static void criarProdutosIniciais(
+            Connection c
+    ) throws SQLException {
 
-        String verificar = "SELECT COUNT(*) FROM produtos";
-
-        int quantidadeProdutos;
+        String sqlVerificar = "SELECT 1 FROM produtos LIMIT 1";
 
         try (
             Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery(verificar)
+            ResultSet rs = st.executeQuery(sqlVerificar)
         ) {
 
-            rs.next();
-            quantidadeProdutos = rs.getInt(1);
-        }
-
-        if (quantidadeProdutos > 0) {
-
-            System.out.println(
-                "Já existem " + quantidadeProdutos
-                + " produtos no banco."
-            );
-
-            return;
+            // Se já existir pelo menos um produto,
+            // simplesmente não faz nada.
+            if (rs.next()) {
+                return;
+            }
         }
 
         String sql = """
@@ -208,8 +194,6 @@ public final class BancoDados {
                 25,
                 18.90
             );
-
-            System.out.println("Produtos iniciais criados!");
         }
     }
 
@@ -227,7 +211,5 @@ public final class BancoDados {
         ps.setDouble(4, valor);
 
         ps.executeUpdate();
-
-        System.out.println("Produto criado: " + nome);
     }
 }

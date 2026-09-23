@@ -22,7 +22,16 @@ public final class Conexao {
     }
 
     public static Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL);
+        try {
+            Connection conexao = DriverManager.getConnection(URL);
+            System.out.println("Banco de dados conectado com sucesso!");
+            return conexao;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados!");
+            System.out.println("Detalhes: " + e.getMessage());
+            throw e;
+        }
     }
 
     public static String caminhoBanco() {

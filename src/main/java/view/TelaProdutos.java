@@ -60,7 +60,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         jButton3.addActionListener(e -> voltar());
 
         JPanel topo = new JPanel(
-            new java.awt.GridLayout(2, 3, 8, 8)
+            new java.awt.GridLayout(3, 2, 8, 8)
         );
 
         topo.setBorder(
