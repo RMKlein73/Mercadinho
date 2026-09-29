@@ -1,10 +1,16 @@
-name: CI - Testes do Mercadinho
+name: CI - Testes e Release do Mercadinho
 
 on:
   push:
     branches: [ "main", "master" ]
+    tags:
+      - "v*"
+
   pull_request:
     branches: [ "main", "master" ]
+
+permissions:
+  contents: write
 
 jobs:
   testes:
@@ -24,11 +30,17 @@ jobs:
       - name: Executar testes unitários
         run: mvn -B test
 
-      - name: Gerar projeto
+      - name: Gerar JAR executável
         run: mvn -B package -DskipTests
 
-      - name: Disponibilizar JAR para download
-        uses: actions/upload-artifact@v4
+      - name: Verificar arquivos gerados
+        run: ls -lh target/
+
+      - name: Publicar JAR na Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
         with:
-          name: Mercadinho
-          path: target/*.jar
+          files: target/Mercadinho-1.0-SNAPSHOT.jar
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
