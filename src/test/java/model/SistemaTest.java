@@ -21,7 +21,10 @@ class SistemaTest {
 
     @Test
     void deveAutenticarClienteExistente() {
-        Cliente cliente = Sistema.autenticarCliente("cliente", "1234");
+        Cliente cliente = Sistema.autenticarCliente(
+                "cliente",
+                "1234"
+        );
 
         assertNotNull(cliente);
         assertEquals("cliente", cliente.getUsuario());
@@ -29,80 +32,183 @@ class SistemaTest {
 
     @Test
     void naoDeveAutenticarClienteComSenhaErrada() {
-        assertNull(Sistema.autenticarCliente("cliente", "senhaErrada"));
+        assertNull(
+                Sistema.autenticarCliente(
+                        "cliente",
+                        "senhaErrada"
+                )
+        );
     }
 
     @Test
     void naoDeveAutenticarClienteInexistente() {
-        assertNull(Sistema.autenticarCliente("usuarioQueNaoExiste", "1234"));
+        assertNull(
+                Sistema.autenticarCliente(
+                        "usuarioQueNaoExiste",
+                        "1234"
+                )
+        );
     }
 
     @Test
     void deveAutenticarAdministradorComCredenciaisCorretas() {
-        assertTrue(Sistema.autenticarAdmin("admin", "admin123"));
+        assertTrue(
+                Sistema.autenticarAdmin(
+                        "admin",
+                        "admin123"
+                )
+        );
     }
 
     @Test
     void naoDeveAutenticarAdministradorComCredenciaisErradas() {
-        assertFalse(Sistema.autenticarAdmin("admin", "errada"));
+        assertFalse(
+                Sistema.autenticarAdmin(
+                        "admin",
+                        "errada"
+                )
+        );
     }
 
     @Test
-    void naoDeveCadastrarClienteComUsuarioVazio() {
-        Cliente cliente = new Cliente("", "1234", "cpf", "telefone", "email");
+    void naoDeveCadastrarClienteNulo() {
+        assertFalse(
+                Sistema.cadastrarCliente(null)
+        );
+    }
 
-        assertFalse(Sistema.cadastrarCliente(cliente));
+    @Test
+    void naoDeveCadastrarClienteComUsuarioDuplicado() {
+        Cliente cliente = new Cliente(
+                "cliente",
+                "1234",
+                "cpf",
+                "telefone",
+                "cliente2@email.com"
+        );
+
+        assertFalse(
+                Sistema.cadastrarCliente(cliente)
+        );
     }
 
     @Test
     void naoDeveCadastrarUsuarioAdminComoCliente() {
-        Cliente cliente = new Cliente("admin", "1234", "cpf2", "telefone", "email");
+        Cliente cliente = new Cliente(
+                "admin",
+                "1234",
+                "cpf2",
+                "telefone",
+                "admin@email.com"
+        );
 
-        assertFalse(Sistema.cadastrarCliente(cliente));
+        assertFalse(
+                Sistema.cadastrarCliente(cliente)
+        );
+    }
+
+    @Test
+    void deveCadastrarNovoCliente() {
+        Cliente cliente = new Cliente(
+                "novoClienteTeste",
+                "1234",
+                "cpf3",
+                "telefone",
+                "novo@email.com"
+        );
+
+        assertTrue(
+                Sistema.cadastrarCliente(cliente)
+        );
+
+        assertNotNull(
+                Sistema.buscarCliente("novoClienteTeste")
+        );
     }
 
     @Test
     void deveComprarProdutoQuandoQuantidadeForSuficiente() {
-        Produto produto = new Produto("ProdutoTesteCompra", "Teste", 10, 5.0);
+        Produto produto = new Produto(
+                "ProdutoTesteCompra",
+                "Teste",
+                10,
+                5.0
+        );
+
         Sistema.adicionarProduto(produto);
 
+        int indice = Sistema.getProdutos().size() - 1;
         int antes = produto.getQuantidade();
 
-        assertTrue(Sistema.comprarProduto(Sistema.getProdutos().size() - 1, 3));
-        assertEquals(antes - 3, produto.getQuantidade());
+        assertTrue(
+                Sistema.comprarProduto(indice, 3)
+        );
 
-        Sistema.excluirProduto(Sistema.getProdutos().size() - 1);
+        assertEquals(
+                antes - 3,
+                produto.getQuantidade()
+        );
+
+        Sistema.excluirProduto(indice);
     }
 
     @Test
     void naoDeveComprarQuantidadeMaiorQueEstoque() {
-        Produto produto = new Produto("ProdutoTesteEstoque", "Teste", 2, 5.0);
+        Produto produto = new Produto(
+                "ProdutoTesteEstoque",
+                "Teste",
+                2,
+                5.0
+        );
+
         Sistema.adicionarProduto(produto);
 
         int indice = Sistema.getProdutos().size() - 1;
 
-        assertFalse(Sistema.comprarProduto(indice, 3));
-        assertEquals(2, produto.getQuantidade());
+        assertFalse(
+                Sistema.comprarProduto(indice, 3)
+        );
+
+        assertEquals(
+                2,
+                produto.getQuantidade()
+        );
 
         Sistema.excluirProduto(indice);
     }
 
     @Test
     void naoDeveComprarQuantidadeZeroOuNegativa() {
-        Produto produto = new Produto("ProdutoTesteQuantidade", "Teste", 10, 5.0);
+        Produto produto = new Produto(
+                "ProdutoTesteQuantidade",
+                "Teste",
+                10,
+                5.0
+        );
+
         Sistema.adicionarProduto(produto);
 
         int indice = Sistema.getProdutos().size() - 1;
 
-        assertFalse(Sistema.comprarProduto(indice, 0));
-        assertFalse(Sistema.comprarProduto(indice, -1));
+        assertFalse(
+                Sistema.comprarProduto(indice, 0)
+        );
+
+        assertFalse(
+                Sistema.comprarProduto(indice, -1)
+        );
 
         Sistema.excluirProduto(indice);
     }
 
     @Test
     void naoDeveComprarComIndiceInvalido() {
-        assertFalse(Sistema.comprarProduto(-1, 1));
-        assertFalse(Sistema.comprarProduto(999999, 1));
+        assertFalse(
+                Sistema.comprarProduto(-1, 1)
+        );
+
+        assertFalse(
+                Sistema.comprarProduto(999999, 1)
+        );
     }
 }

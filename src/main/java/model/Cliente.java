@@ -51,7 +51,9 @@ public class Cliente {
 
     public void setUsuario(String usuario) {
         if (usuario == null || usuario.trim().isEmpty()) {
-            throw new IllegalArgumentException("O usuário não pode ser nulo ou vazio.");
+            throw new IllegalArgumentException(
+                    "O usuário não pode ser nulo ou vazio."
+            );
         }
         this.usuario = usuario;
     }
@@ -62,7 +64,9 @@ public class Cliente {
 
     public void setSenha(String senha) {
         if (senha == null || senha.trim().isEmpty()) {
-            throw new IllegalArgumentException("A senha não pode ser nula ou vazia.");
+            throw new IllegalArgumentException(
+                    "A senha não pode ser nula ou vazia."
+            );
         }
         this.senha = senha;
     }
@@ -89,7 +93,9 @@ public class Cliente {
 
     public void setEmail(String email) {
         if (email != null && !email.contains("@")) {
-            throw new IllegalArgumentException("E-mail com formato inválido.");
+            throw new IllegalArgumentException(
+                    "E-mail com formato inválido."
+            );
         }
         this.email = email;
     }

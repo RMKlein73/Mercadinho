@@ -37,53 +37,97 @@ class ClienteTest {
         cliente.setId(10);
         cliente.setUsuario("novoUsuario");
         cliente.setSenha("novaSenha");
+        cliente.setCpf("222.222.222-22");
+        cliente.setTelefone("(51) 98888-8888");
+        cliente.setEmail("novo@email.com");
 
         assertEquals(10, cliente.getId());
         assertEquals("novoUsuario", cliente.getUsuario());
         assertEquals("novaSenha", cliente.getSenha());
+        assertEquals("222.222.222-22", cliente.getCpf());
+        assertEquals("(51) 98888-8888", cliente.getTelefone());
+        assertEquals("novo@email.com", cliente.getEmail());
     }
 
     @Test
     void naoDevePermitirUsuarioVazioOuNulo() {
         Cliente cliente = new Cliente();
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            cliente.setUsuario(null);
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setUsuario(null)
+        );
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            cliente.setUsuario("   ");
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setUsuario("")
+        );
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setUsuario("   ")
+        );
     }
 
     @Test
     void naoDevePermitirSenhaVaziaOuNula() {
         Cliente cliente = new Cliente();
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            cliente.setSenha(null);
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setSenha(null)
+        );
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            cliente.setSenha("");
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setSenha("")
+        );
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setSenha("   ")
+        );
     }
 
     @Test
     void naoDeveAceitarEmailSemFormatoValido() {
         Cliente cliente = new Cliente();
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            cliente.setEmail("emailinvalido.com");
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setEmail("emailinvalido.com")
+        );
+    }
+
+    @Test
+    void deveAceitarEmailNulo() {
+        Cliente cliente = new Cliente();
+
+        assertDoesNotThrow(
+                () -> cliente.setEmail(null)
+        );
+
+        assertNull(cliente.getEmail());
     }
 
     @Test
     void naoDeveAceitarIdNegativo() {
         Cliente cliente = new Cliente();
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            cliente.setId(-1);
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cliente.setId(-1)
+        );
+    }
+
+    @Test
+    void deveAceitarIdZero() {
+        Cliente cliente = new Cliente();
+
+        assertDoesNotThrow(
+                () -> cliente.setId(0)
+        );
+
+        assertEquals(0, cliente.getId());
     }
 }
