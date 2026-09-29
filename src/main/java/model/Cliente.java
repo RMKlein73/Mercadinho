@@ -27,11 +27,11 @@ public class Cliente {
             String telefone,
             String email
     ) {
-        this.usuario = usuario;
-        this.senha = senha;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.email = email;
+        setUsuario(usuario);
+        setSenha(senha);
+        setCpf(cpf);
+        setTelefone(telefone);
+        setEmail(email);
     }
 
     public int getId() {
@@ -39,6 +39,9 @@ public class Cliente {
     }
 
     public void setId(int id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("O ID não pode ser negativo.");
+        }
         this.id = id;
     }
 
@@ -47,6 +50,9 @@ public class Cliente {
     }
 
     public void setUsuario(String usuario) {
+        if (usuario == null || usuario.trim().isEmpty()) {
+            throw new IllegalArgumentException("O usuário não pode ser nulo ou vazio.");
+        }
         this.usuario = usuario;
     }
 
@@ -55,6 +61,9 @@ public class Cliente {
     }
 
     public void setSenha(String senha) {
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new IllegalArgumentException("A senha não pode ser nula ou vazia.");
+        }
         this.senha = senha;
     }
 
@@ -79,6 +88,9 @@ public class Cliente {
     }
 
     public void setEmail(String email) {
+        if (email != null && !email.contains("@")) {
+            throw new IllegalArgumentException("E-mail com formato inválido.");
+        }
         this.email = email;
     }
 }

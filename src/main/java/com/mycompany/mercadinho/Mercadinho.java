@@ -1,6 +1,6 @@
 package com.mycompany.mercadinho;
 
-import model.BancoDados;
+import dao.BancoDados;
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 import view.TelaPrincipal;

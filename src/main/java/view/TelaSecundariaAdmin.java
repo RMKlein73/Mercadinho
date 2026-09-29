@@ -34,7 +34,7 @@ public class TelaSecundariaAdmin extends javax.swing.JFrame {
 
         jButton1 = new JButton("Ver produtos");
         jButton3 = new JButton("Cadastrar produtos");
-        jButton4 = new JButton("Voltar à tela principal");
+        jButton4 = new JButton("Logout");
 
         jButton1.addActionListener(
             e -> abrir(new TelaProdutos())

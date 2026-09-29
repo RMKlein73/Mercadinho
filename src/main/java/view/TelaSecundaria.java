@@ -33,7 +33,7 @@ public class TelaSecundaria extends javax.swing.JFrame {
         );
 
         jButton1 = new JButton("Ver produtos");
-        jButton3 = new JButton("Voltar à tela principal");
+        jButton3 = new JButton("Logout");
 
         jButton1.addActionListener(e -> {
 

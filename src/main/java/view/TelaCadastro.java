@@ -9,7 +9,7 @@ package view;
  * @author Rafael
  */
 import model.Cliente;
-import model.ClienteDAO;
+import dao.ClienteDAO;
 import javax.swing.*;
 
 public class TelaCadastro extends javax.swing.JFrame {

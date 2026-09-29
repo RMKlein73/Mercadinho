@@ -1,5 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
+/**
+ *
+ * @author Rafael
+ */
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -33,5 +41,49 @@ class ClienteTest {
         assertEquals(10, cliente.getId());
         assertEquals("novoUsuario", cliente.getUsuario());
         assertEquals("novaSenha", cliente.getSenha());
+    }
+
+    @Test
+    void naoDevePermitirUsuarioVazioOuNulo() {
+        Cliente cliente = new Cliente();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.setUsuario(null);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.setUsuario("   ");
+        });
+    }
+
+    @Test
+    void naoDevePermitirSenhaVaziaOuNula() {
+        Cliente cliente = new Cliente();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.setSenha(null);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.setSenha("");
+        });
+    }
+
+    @Test
+    void naoDeveAceitarEmailSemFormatoValido() {
+        Cliente cliente = new Cliente();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.setEmail("emailinvalido.com");
+        });
+    }
+
+    @Test
+    void naoDeveAceitarIdNegativo() {
+        Cliente cliente = new Cliente();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.setId(-1);
+        });
     }
 }

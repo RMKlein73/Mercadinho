@@ -9,10 +9,12 @@ package view;
  * @author Rafael
  */
 import model.Produto;
-import model.ProdutoDAO;
+import dao.ProdutoDAO;
 import model.Sessao;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TelaProdutos extends javax.swing.JFrame {
 
@@ -36,7 +38,7 @@ public class TelaProdutos extends javax.swing.JFrame {
         jTextField2 = new JTextField();
 
         jButton1 = new JButton("Comprar");
-        jButton3 = new JButton("Voltar à tela principal");
+        jButton3 = new JButton("Voltar à tela anterior");
 
         jTable2 = new JTable(
             new DefaultTableModel(
@@ -55,6 +57,13 @@ public class TelaProdutos extends javax.swing.JFrame {
                 }
             }
         );
+
+        jTable2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                preencherCamposDaTabela();
+            }
+        });
 
         jButton1.addActionListener(e -> comprar());
         jButton3.addActionListener(e -> voltar());
@@ -107,6 +116,18 @@ public class TelaProdutos extends javax.swing.JFrame {
         );
     }
 
+    private void preencherCamposDaTabela() {
+        int linhaSelecionada = jTable2.getSelectedRow();
+
+        if (linhaSelecionada != -1) {
+
+            String nomeProduto = jTable2.getValueAt(linhaSelecionada, 1).toString();
+            jTextField1.setText(nomeProduto);
+
+            jTextField2.requestFocus(); 
+        }
+    }
+
     private void carregarProdutos() {
 
         try {
@@ -146,100 +167,100 @@ public class TelaProdutos extends javax.swing.JFrame {
 
     private void comprar() {
 
-    if (!Sessao.isClienteLogado() && !Sessao.isAdminLogado()) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            "Faça login antes de comprar."
-        );
-
-        return;
-    }
-
-    String nome = jTextField1.getText().trim();
-    String textoQuantidade = jTextField2.getText().trim();
-
-    if (nome.isEmpty()) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            "Informe o nome do produto."
-        );
-
-        return;
-    }
-
-    if (textoQuantidade.isEmpty()) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            "Informe a quantidade."
-        );
-
-        return;
-    }
-
-    int quantidade;
-
-    try {
-
-        quantidade = Integer.parseInt(textoQuantidade);
-
-    } catch (NumberFormatException e) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            "A quantidade deve ser um número inteiro."
-        );
-
-        return;
-    }
-
-    if (quantidade <= 0) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            "A quantidade deve ser maior que zero."
-        );
-
-        return;
-    }
-
-    try {
-
-        if (new ProdutoDAO().comprar(nome, quantidade)) {
+        if (!Sessao.isClienteLogado() && !Sessao.isAdminLogado()) {
 
             JOptionPane.showMessageDialog(
                 this,
-                "Compra realizada e estoque atualizado!"
+                "Faça login antes de comprar."
             );
 
-            carregarProdutos();
-
-            jTextField1.setText("");
-            jTextField2.setText("");
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                this,
-                "Produto inexistente ou estoque insuficiente."
-            );
+            return;
         }
 
-    } catch (Exception e) {
+        String nome = jTextField1.getText().trim();
+        String textoQuantidade = jTextField2.getText().trim();
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Erro: " + e.getMessage(),
-            "Erro",
-            JOptionPane.ERROR_MESSAGE
-        );
+        if (nome.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Informe o nome do produto."
+            );
+
+            return;
+        }
+
+        if (textoQuantidade.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Informe a quantidade."
+            );
+
+            return;
+        }
+
+        int quantidade;
+
+        try {
+
+            quantidade = Integer.parseInt(textoQuantidade);
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "A quantidade deve ser um número inteiro."
+            );
+
+            return;
+        }
+
+        if (quantidade <= 0) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "A quantidade deve ser maior que zero."
+            );
+
+            return;
+        }
+
+        try {
+
+            if (new ProdutoDAO().comprar(nome, quantidade)) {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Compra realizada e estoque atualizado!"
+                );
+
+                carregarProdutos();
+
+                jTextField1.setText("");
+                jTextField2.setText("");
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Produto inexistente ou estoque insuficiente."
+                );
+            }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Erro: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
-}
 
     private void voltar() {
-        new TelaPrincipal().setVisible(true);
+        new TelaSecundaria().setVisible(true);
         dispose();
     }
 

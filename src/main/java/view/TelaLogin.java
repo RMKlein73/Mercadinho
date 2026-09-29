@@ -8,7 +8,7 @@ package view;
  *
  * @author Rafael
  */
-import model.ClienteDAO;
+import dao.ClienteDAO;
 import model.Sessao;
 import javax.swing.*;
 

@@ -25,10 +25,10 @@ public class Produto {
             int quantidade,
             double valor
     ) {
-        this.nome = nome;
-        this.categoria = categoria;
-        this.quantidade = quantidade;
-        this.valor = valor;
+        setNome(nome);
+        setCategoria(categoria);
+        setQuantidade(quantidade);
+        setValor(valor);
     }
 
     public int getId() {
@@ -36,6 +36,9 @@ public class Produto {
     }
 
     public void setId(int id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("O ID não pode ser negativo.");
+        }
         this.id = id;
     }
 
@@ -44,6 +47,9 @@ public class Produto {
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome do produto não pode ser vazio.");
+        }
         this.nome = nome;
     }
 
@@ -52,6 +58,9 @@ public class Produto {
     }
 
     public void setCategoria(String categoria) {
+        if (categoria == null || categoria.trim().isEmpty()) {
+            throw new IllegalArgumentException("A categoria do produto não pode ser vazia.");
+        }
         this.categoria = categoria;
     }
 
@@ -60,6 +69,9 @@ public class Produto {
     }
 
     public void setQuantidade(int quantidade) {
+        if (quantidade < 0) {
+            throw new IllegalArgumentException("A quantidade não pode ser negativa.");
+        }
         this.quantidade = quantidade;
     }
 
@@ -68,6 +80,9 @@ public class Produto {
     }
 
     public void setValor(double valor) {
+        if (valor < 0) {
+            throw new IllegalArgumentException("O valor não pode ser negativo.");
+        }
         this.valor = valor;
     }
 }

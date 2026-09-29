@@ -1,9 +1,23 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
+/**
+ *
+ * @author Rafael
+ */
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class SistemaTest {
+
+    @AfterEach
+    void limparEstado() {
+        Sessao.logout();
+    }
 
     @Test
     void deveAutenticarClienteExistente() {
@@ -16,6 +30,11 @@ class SistemaTest {
     @Test
     void naoDeveAutenticarClienteComSenhaErrada() {
         assertNull(Sistema.autenticarCliente("cliente", "senhaErrada"));
+    }
+
+    @Test
+    void naoDeveAutenticarClienteInexistente() {
+        assertNull(Sistema.autenticarCliente("usuarioQueNaoExiste", "1234"));
     }
 
     @Test
@@ -79,5 +98,11 @@ class SistemaTest {
         assertFalse(Sistema.comprarProduto(indice, -1));
 
         Sistema.excluirProduto(indice);
+    }
+
+    @Test
+    void naoDeveComprarComIndiceInvalido() {
+        assertFalse(Sistema.comprarProduto(-1, 1));
+        assertFalse(Sistema.comprarProduto(999999, 1));
     }
 }

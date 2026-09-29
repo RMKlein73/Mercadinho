@@ -26,15 +26,26 @@ public class Sistema {
     }
 
     public static boolean cadastrarCliente(Cliente cliente) {
-        if (cliente == null || cliente.getUsuario().isBlank() || cliente.getSenha().isBlank()) return false;
-        if (buscarCliente(cliente.getUsuario()) != null || isAdmin(cliente.getUsuario())) return false;
-        clientes.add(cliente);
-        return true;
+        try {
+            if (cliente == null || cliente.getUsuario() == null || cliente.getUsuario().isBlank() 
+                    || cliente.getSenha() == null || cliente.getSenha().isBlank()) {
+                return false;
+            }
+            if (buscarCliente(cliente.getUsuario()) != null || isAdmin(cliente.getUsuario())) {
+                return false;
+            }
+            clientes.add(cliente);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     public static Cliente autenticarCliente(String usuario, String senha) {
         for (Cliente c : clientes) {
-            if (c.getUsuario().equals(usuario) && c.getSenha().equals(senha)) return c;
+            if (c.getUsuario().equals(usuario) && c.getSenha().equals(senha)) {
+                return c;
+            }
         }
         return null;
     }
@@ -44,24 +55,46 @@ public class Sistema {
     }
 
     public static Cliente buscarCliente(String usuario) {
-        for (Cliente c : clientes) if (c.getUsuario().equalsIgnoreCase(usuario)) return c;
+        for (Cliente c : clientes) {
+            if (c.getUsuario().equalsIgnoreCase(usuario)) {
+                return c;
+            }
+        }
         return null;
     }
 
-    public static boolean isAdmin(String usuario) { return ADMIN_USUARIO.equalsIgnoreCase(usuario); }
+    public static boolean isAdmin(String usuario) { 
+        return ADMIN_USUARIO.equalsIgnoreCase(usuario); 
+    }
 
-    public static List<Produto> getProdutos() { return produtos; }
+    public static List<Produto> getProdutos() { 
+        return produtos; 
+    }
 
-    public static void adicionarProduto(Produto produto) { produtos.add(produto); }
+    public static void adicionarProduto(Produto produto) { 
+        produtos.add(produto); 
+    }
 
-    public static void atualizarProduto(int indice, Produto produto) { produtos.set(indice, produto); }
+    public static void atualizarProduto(int indice, Produto produto) { 
+        if (indice >= 0 && indice < produtos.size()) {
+            produtos.set(indice, produto); 
+        }
+    }
 
-    public static void excluirProduto(int indice) { produtos.remove(indice); }
+    public static void excluirProduto(int indice) { 
+        if (indice >= 0 && indice < produtos.size()) {
+            produtos.remove(indice); 
+        }
+    }
 
     public static boolean comprarProduto(int indice, int quantidade) {
-        if (indice < 0 || indice >= produtos.size() || quantidade <= 0) return false;
+        if (indice < 0 || indice >= produtos.size() || quantidade <= 0) {
+            return false;
+        }
         Produto p = produtos.get(indice);
-        if (p.getQuantidade() < quantidade) return false;
+        if (p.getQuantidade() < quantidade) {
+            return false;
+        }
         p.setQuantidade(p.getQuantidade() - quantidade);
         return true;
     }

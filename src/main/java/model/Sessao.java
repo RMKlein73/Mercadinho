@@ -17,13 +17,13 @@ public final class Sessao {
     }
 
     public static void loginCliente() {
+        logout();
         clienteLogado = true;
-        adminLogado = false;
     }
 
     public static void loginAdmin() {
+        logout();
         adminLogado = true;
-        clienteLogado = false;
     }
 
     public static void logout() {

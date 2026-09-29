@@ -9,7 +9,7 @@ package view;
  * @author Rafael
  */
 import model.Produto;
-import model.ProdutoDAO;
+import dao.ProdutoDAO;
 import model.Sessao;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -40,7 +40,7 @@ public class TelaCadastroProdutos extends javax.swing.JFrame {
         jButton1 = new JButton("Cadastrar");
         jButton2 = new JButton("Atualizar");
         jButton3 = new JButton("Excluir");
-        jButton4 = new JButton("Voltar à tela principal");
+        jButton4 = new JButton("Voltar à tela anterior");
 
         jTable1 = new JTable(
             new DefaultTableModel(
@@ -387,9 +387,10 @@ public class TelaCadastroProdutos extends javax.swing.JFrame {
     }
 
     private void voltar() {
-        new TelaPrincipal().setVisible(true);
+        Sessao.logout();
+        new TelaSecundariaAdmin().setVisible(true);
         dispose();
-    }
+}
 
     public static void main(String[] args) {
 

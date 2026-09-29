@@ -8,7 +8,7 @@ package view;
  *
  * @author Rafael
  */
-import model.AdminDAO;
+import dao.AdminDAO;
 import model.Sessao;
 import javax.swing.*;
 

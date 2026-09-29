@@ -8,7 +8,7 @@ package view;
  *
  * @author Rafael
  */
-import model.BancoDados;
+import dao.BancoDados;
 import javax.swing.*;
 
 public class TelaPrincipal extends javax.swing.JFrame {
