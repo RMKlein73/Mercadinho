@@ -1,46 +1,28 @@
-name: CI - Testes e Release do Mercadinho
+name: Java CI/CD Pipeline - Mercadinho
 
 on:
   push:
     branches: [ "main", "master" ]
-    tags:
-      - "v*"
-
   pull_request:
     branches: [ "main", "master" ]
 
-permissions:
-  contents: write
-
 jobs:
-  testes:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Baixar código
-        uses: actions/checkout@v4
+    - name: Baixar código do repositório
+      uses: actions/checkout@v3
 
-      - name: Configurar Java 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-          cache: maven
+    - name: Configurar Java JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
 
-      - name: Executar testes unitários
-        run: mvn -B test
+    - name: Executar Testes Unitários com Maven
+      run: mvn test
 
-      - name: Gerar JAR executável
-        run: mvn -B package -DskipTests
-
-      - name: Verificar arquivos gerados
-        run: ls -lh target/
-
-      - name: Publicar JAR na Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: target/Mercadinho-1.0-SNAPSHOT.jar
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Compilar o Projeto (Gerar JAR)
+      run: mvn package -DskipTests
