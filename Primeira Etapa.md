@@ -11,15 +11,15 @@ Protótipo: [https://www.figma.com/design/oUS9TvokrDDDIRe0AadXXM/Untitled?node-i
 📐 Diagramas do Sistema
 1. Diagrama de Casos de Uso
 
-<img width="410" height="496" alt="diagram caso de uso" src="https://github.com/user-attachments/assets/950225a4-a2ac-46c7-9a00-d21fc902fd61" />
+<img width="475" height="745" alt="Captura de tela 2026-09-30 184412" src="https://github.com/user-attachments/assets/e992f763-bd18-4d47-97b6-8bd90adc35ef" />
 
 2. Diagrama de Classes
 
-<img width="412" height="492" alt="diagram de classe" src="https://github.com/user-attachments/assets/982b32c4-7867-4b2c-b43c-777a7f917cde" />
+<img width="691" height="775" alt="Captura de tela 2026-09-30 184603" src="https://github.com/user-attachments/assets/bf86c6ad-96d6-48ba-a33c-5d973f3005d8" />
 
 3. Diagrama Entidade-Relacionamento (DER)
 
-<img width="366" height="403" alt="diagram relacionamento entidade" src="https://github.com/user-attachments/assets/ebf425e5-fe3e-4f79-a623-739a214d277d" />
+<img width="493" height="717" alt="Captura de tela 2026-09-30 184743" src="https://github.com/user-attachments/assets/c011d5fb-b500-4faa-a79d-af04fe704685" />
 
 🛠️ Ferramentas
 
